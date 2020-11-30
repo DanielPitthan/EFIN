@@ -1,0 +1,161 @@
+﻿
+@inject Business.Cadastros.Empresas.Interfaces.IEmpresaService empresaService;
+@inject ToastService toastService
+
+@using Modelos.Cadastros.Clientes
+
+
+    <EditForm Model="@parametros" @ref="formRef">
+        <div class="container">
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <label> Empresa</label>
+                        <RadzenDropDown TValue="string" AllowFiltering="true"
+                                        Data="@Empresas"
+                                        TextProperty="DescricaoResumida"
+                                        ValueProperty="Codigo"
+                                        Style="width:100%;"
+                                        Change="@(arg => SelecionaFilial(arg.ToString()))">
+                        </RadzenDropDown>
+                    </div>
+                    <div class="form-group">
+                        <label>Data Base</label>
+                        <RadzenDatePicker @bind-Value="parametros.DataBase" DateFormat="d" Style="width:100%;" />
+                    </div>
+                    <div class="form-group">
+                        <fieldset>
+                            <legend class="font-12">
+                                Tipo do relatório
+                            </legend>
+                            <div class="form-group">
+                                <RadzenRadioButtonList style="margin-right:1em;" @bind-Value="parametros.TipoCliente">
+                                    <Items>
+                                        <RadzenRadioButtonListItem Text="Mercado Interno" Value="TipoCliente.MercadoInterno" />
+                                        <RadzenRadioButtonListItem Text="Mercado Externo" Value="TipoCliente.Mercadoexterno" />
+                                        <RadzenRadioButtonListItem Text="Mercado Ambos" Value="TipoCliente.Ambos" />
+                                    </Items>
+                                </RadzenRadioButtonList>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <hr />
+                    <div class="form-inline">
+
+                        <div class="form-group">
+                            <label style="margin-right:1em;">Gerar em Tela?</label>
+                            <RadzenCheckBox style="margin-right:1em;" @bind-Value="parametros.GeraTela" @onclick="MarcarEmTela"></RadzenCheckBox>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label style="margin-right:1em;">Gerar em Excel</label>
+                            <RadzenCheckBox style="margin-right:1em;" @bind-Value="parametros.GeraExcel" @onclick="MarcarEmExcel"></RadzenCheckBox>
+                        </div>
+
+
+                    </div>
+                    <hr />
+
+                    <input type="submit" class="btn btn-primary" @onclick="@(async()=> await GerarRelatorio())" />
+                    
+                </div>
+            </div>
+        </div>
+    </EditForm>
+
+
+
+@code {
+
+    [Parameter]
+    public EventCallback<ReportContasReceberParametros> ParameterSetCallBack { get; set; }
+
+
+
+    private ReportContasReceberParametros parametros = new ReportContasReceberParametros();
+    private EditForm formRef;
+
+
+    private IList<Empresa> Empresas;
+    IList<SE1010> relatorio = new List<SE1010>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+        Empresas = await this.empresaService.ListAsync();
+
+    }
+
+
+    private async Task GerarRelatorio()
+    {
+        if (!HandleValidate(formRef.EditContext))
+        {
+            return;
+        }
+
+        await ParameterSetCallBack.InvokeAsync(parametros);
+    }
+
+    private void SelecionaFilial(string filial)
+    {
+        parametros.Filial = filial;
+    }
+
+
+    /// <summary>
+    /// Lida com a validação do formulário
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    private bool HandleValidate(EditContext context)
+    {
+        bool isValid = context.Validate();
+
+        if (!isValid || !(parametros.DataBase > Convert.ToDateTime("1990-01-01")))
+        {
+            var msg = context.GetValidationMessages();
+            foreach (var mensagem in msg)
+            {
+                toastService.ShowToast(mensagem, ToastLevel.Warning, 5000);
+            }
+
+
+            this.StateHasChanged();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void MarcarEmTela()
+    {
+        if (parametros.GeraTela)
+        {
+            parametros.GeraPdf = false;
+            parametros.GeraExcel = false;
+            return;
+        }
+
+
+    }
+
+
+    private void MarcarEmExcel()
+    {
+
+        if (parametros.GeraExcel)
+        {
+            parametros.GeraTela = false;
+            parametros.GeraPdf = false;
+            return;
+        }
+
+    }
+
+
+
+}

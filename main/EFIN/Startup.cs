@@ -8,10 +8,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EFIN.Data;
 using Blazorise;
 using Blazorise.Bootstrap;
 using System.Net.Http;
+using Core.Context;
+using Microsoft.EntityFrameworkCore;
+
+using BlazorDownloadFile;
+using EFIN.Injection;
 
 namespace EFIN
 {
@@ -30,7 +34,22 @@ namespace EFIN
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+
+            services.AddDbContext<WebFrameContex>(options =>
+            {
+                options.UseSqlServer(WebFrameContex.StringConnectionWebFrame())
+                .EnableSensitiveDataLogging();
+
+            }, ServiceLifetime.Transient); 
+
+            services.AddDbContext<ProtheusContex>(options =>
+            {
+                options.UseSqlServer(ProtheusContex.StringConnectionProtheus())
+                .EnableSensitiveDataLogging();
+
+            }, ServiceLifetime.Transient);
+
+            
 
             services
                .AddBlazorise(options =>
@@ -39,8 +58,26 @@ namespace EFIN
                  })
                .AddBootstrapProviders();
 
-            services.AddTransient<Radzen.DialogService>();
+            
+            services.AddBlazorDownloadFile(ServiceLifetime.Scoped);
+
             services.AddTransient<HttpClient>();
+            services.AddDependencia(Configuration);
+
+           
+
+            //services.AddTransient<INaturezaDAO, NaturezaDAO>();
+            //services.AddTransient<IClienteService, ClienteService>();
+            //services.AddTransient<IClienteDAO, ClienteDAO>();
+
+            //services.AddScoped<ToastService>();
+            //services.AddTransient<NotificationService>();
+            //services.AddTransient<IContasAReceberService, ContaAReceberService>();
+            //services.AddTransient<IContasAReceberDAO, ContasAReceberDAO>();
+            //services.AddTransient<IEmpresaService, EmpresaService>();
+            //services.AddTransient<IEmpresaDAO, EmpresaDAO>();
+            //services.AddTransient<Radzen.DialogService>();
+            //services.AddTransient<HttpClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

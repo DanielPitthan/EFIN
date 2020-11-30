@@ -1,9 +1,5 @@
-﻿using Modelos.Cadastros.Cliente;
+﻿using Modelos.Totvs.Protheus.Cadastros.Cliente;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modelos.Financeiro
 {
@@ -20,7 +16,7 @@ namespace Modelos.Financeiro
         public virtual DateTime Emissao { get; set; }
         public virtual DateTime Vencimento { get; set; }
         public virtual DateTime VencimentoReal { get; set; }
-        public virtual DateTime Baixa { get; set; }       
+        public virtual DateTime? Baixa { get; set; }       
         public virtual string Historico { get; set; }
         public virtual int PrazoFaturado { get; set; }
         public virtual int DiasAtrasoAntecipado { get; set; }
@@ -33,9 +29,8 @@ namespace Modelos.Financeiro
         public virtual decimal Acrescimo { get; set; }
         public virtual decimal Decrescimo { get; set; }
         public virtual decimal DescontoFinanceiro { get; set; }
-        public virtual decimal TxDolar { get; set; }
-        public virtual decimal TxEuro { get; set; }
-        public virtual Cliente Cliente { get; set; }
+        public virtual decimal? TxDolar { get; set; }
+        public virtual decimal? TxEuro { get; set; }
 
 
     }

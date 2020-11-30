@@ -1,0 +1,15 @@
+﻿
+@inherits ToastBase
+<div class="toast @(IsVisible ? "toast-visible" : null) @BackgroundCssClass">
+    <div class="toast-icon">
+        <MatIcon Icon="@IconCssClass"></MatIcon>
+    </div>
+    <div class="toast-body">
+        <h5>@Heading</h5>
+        <p>@Message</p>
+    </div>
+</div>
+
+@code {
+
+}

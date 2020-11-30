@@ -1,0 +1,41 @@
+﻿
+@if (Relatorio.Count > 0)
+{
+    <RadzenGrid AllowFiltering="true"
+                AllowSorting="true"
+                TItem="RelatorioContasAReceberConsolidado"
+                Data="@Relatorio">
+        <Columns>
+
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Azienda" Property="Filial"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Descrizione Cliente" Property="Nome"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Codice Cliente" Property="Codigo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Faturado" Property="FaturadoDataBase"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Giorni Teorici" Property="MediaPrazoFaturado"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Giorni Effettivi" Property="MediaPrazoRecebimento"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Saldo" Property="Saldo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Saldo coperto da Assicurazione" Property="SaldoCoberto"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Rischio di Credito" Property="RicoDeCredito"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Fido Concesso" Property="SeguroCoberto"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Rischio Disponibile" Property="RiscoDisponivel"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Altre garanzie" Property="OutrasGarantias"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Fido addizionale impresa" Property="LinhaCreditoAdicional"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Rischio Totale Disponibile" Property="RiscoTotalDisponivel"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="% Copertura" Property="PercentCobertura"></RadzenGridColumn>
+            <RadzenGridColumn TItem="RelatorioContasAReceberConsolidado" Title="Vencidas" Property="SaldoVencido"></RadzenGridColumn>
+        </Columns>
+    </RadzenGrid>
+}
+@code {
+
+    [Parameter]
+    public IList<RelatorioContasAReceberConsolidado> Relatorio { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Relatorio = new List<RelatorioContasAReceberConsolidado>();
+    }
+
+    
+
+}

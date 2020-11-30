@@ -3,29 +3,29 @@
 
 <MatNavMenu>
     <MatNavSubMenu>
-        <MatNavSubMenuHeader Title="Importação de XML">
-            <MatNavItem AllowSelection="false">Relatórios</MatNavItem>
+        <MatNavSubMenuHeader>
+            <MatNavItem AllowSelection="false">Contas a Receber</MatNavItem>
         </MatNavSubMenuHeader>
         <MatNavSubMenuList>
-            <MatButton Icon="cloud_upload" Link="nfeXmlUpload">Importar XML</MatButton>
-            <MatButton Icon="tv" Link="painelImportacaoXML">Painel de Importação</MatButton>
-        </MatNavSubMenuList>       
-    </MatNavSubMenu>
-    <MatNavSubMenu>
-        <MatNavSubMenuHeader Title="Divergencias Cadastrais">
-            <MatNavItem AllowSelection="false">Divergencias Cadastrais</MatNavItem>
-        </MatNavSubMenuHeader>
-        <MatNavSubMenuList>
-            <MatButton Icon="business" Link="painelFornecedor">Emitentes divergentes</MatButton>
-            <MatButton Icon="miscellaneous_services" Link="produtoIntegrado">Produtos Divergentes </MatButton>
+            <MatNavItem>
+                <MatButton Icon="insert_drive_file" Link="R1Consolidado">R01 - Consolidado</MatButton>
+            </MatNavItem>
+            <MatNavItem>
+                <MatButton Icon="insert_drive_file" Link="R1Analitico">R01 - Analitico</MatButton>
+            </MatNavItem>
         </MatNavSubMenuList>
     </MatNavSubMenu>
     <MatNavSubMenu>
-        <MatNavSubMenuHeader Title="Auditoria">
-            <MatNavItem>Auditoria</MatNavItem>
+        <MatNavSubMenuHeader>
+            <MatNavItem AllowSelection="false">Contas a Pagar</MatNavItem>
         </MatNavSubMenuHeader>
         <MatNavSubMenuList>
-            <MatButton Icon="outlined_flag" Link="painelAuditoria">Auditar</MatButton>
+            <MatNavItem>
+                <MatButton Icon="insert_drive_file" Link="p01analitico">P01 - Analitico</MatButton>
+            </MatNavItem>
+            @*<MatNavItem>
+                <MatButton Icon="insert_drive_file" Link="produtoIntegrado">Produtos Divergentes </MatButton>
+            </MatNavItem>*@           
         </MatNavSubMenuList>
     </MatNavSubMenu>
 </MatNavMenu>

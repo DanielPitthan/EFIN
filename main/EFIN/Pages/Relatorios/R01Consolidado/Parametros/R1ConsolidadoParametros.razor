@@ -1,0 +1,170 @@
+﻿
+@inject Business.Cadastros.Empresas.Interfaces.IEmpresaService empresaService;
+@inject Radzen.NotificationService notificationService;
+@inject ToastService toastService
+
+
+
+<EditForm Model="@parametros" @ref="formRef">
+        <DataAnnotationsValidator />
+        <div class="container">
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <label> Empresa</label>
+                        <RadzenDropDown TValue="string" AllowFiltering="true"
+                                        Data="@Empresas"
+                                        TextProperty="DescricaoResumida"
+                                        ValueProperty="Codigo"
+                                        Style="width:100%;"
+                                        Change="@(arg => SelecionaFilial(arg.ToString()))">
+                        </RadzenDropDown>
+
+
+
+                    </div>
+                    <div class="form-group">
+                        <label>Data Base</label>
+                        <RadzenDatePicker @bind-Value="parametros.DataBase" DateFormat="d" Style="width:100%;" />
+
+                    </div>
+                    <div class="form-group">
+                        <label>Dias para Análise</label>
+                        <MatTextField @bind-Value="parametros.DiasParaAnalise" FullWidth="true" PlaceHolder="Dias para análise do prazo de pagamento e recebimento"></MatTextField>
+                    </div>
+                    <div class="form-inline">
+                        <label style="margin-right:1em;">Remove Coligadas ?</label>
+                        <RadzenSwitch style="margin-right:1em;" @bind-Value="parametros.RemoveColigadas"></RadzenSwitch>
+
+                        <label style="margin-right:1em;">Imprime Exportação ?</label>
+                        <RadzenSwitch style="margin-right:1em;" @bind-Value="parametros.ImprimeExportacao"></RadzenSwitch>
+                    </div>
+                    <div class="form-inline">
+
+                    </div>
+                    <hr />
+                    <div class="form-inline">
+
+                        <div class="form-group">
+                            <label style="margin-right:1em;">Gerar em Tela?</label>
+                            <RadzenCheckBox style="margin-right:1em;" @bind-Value="parametros.GeraTela" @onclick="MarcarEmTela"></RadzenCheckBox>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label style="margin-right:1em;">Gerar em Excel</label>
+                            <RadzenCheckBox style="margin-right:1em;" @bind-Value="parametros.GeraExcel" @onclick="MarcarEmExcel"></RadzenCheckBox>
+                        </div>
+                       
+
+                    </div>
+                    <hr />
+                    <input type="submit" value="Gerar Relatório" @onclick="@(async ()=> await GerarRelatorio())" class="btn btn-primary" />
+                </div>
+                @if (!string.IsNullOrEmpty(messagemValidate))
+                {
+                    @messagemValidate
+                }
+            </div>
+        </div>
+    </EditForm>
+
+
+
+
+
+@code {
+
+    [Parameter]
+    public EventCallback<ReportContasReceberParametros> ParameterSetCallBack { get; set; }
+
+    [Inject]
+    BlazorDownloadFile.IBlazorDownloadFileService BlazorDownloadFileService { get; set; }
+
+    private EditForm formRef;
+    private ReportContasReceberParametros parametros = new ReportContasReceberParametros();
+    private IList<Empresa> Empresas;
+    private bool processando;
+    private string messagemValidate;
+
+
+    private IList<RelatorioContasAReceberConsolidado> relatorio = new List<RelatorioContasAReceberConsolidado>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Empresas = await this.empresaService.ListAsync();
+    }
+
+    private async Task GerarRelatorio()
+    {
+        if (!HandleValidate(formRef.EditContext))
+        {
+            return;
+        }
+        await  ParameterSetCallBack.InvokeAsync(parametros);
+    }
+
+    /// <summary>
+    /// Lida com a validação do formulário
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    private bool HandleValidate(EditContext context)
+    {
+        bool isValid = context.Validate();
+
+        if (!isValid || !(parametros.DataBase > Convert.ToDateTime("1990-01-01")))
+        {
+            var msg = context.GetValidationMessages();
+            foreach (var mensagem in msg)
+            {
+                toastService.ShowToast(mensagem, ToastLevel.Warning, 5000);
+            }
+
+            if (!(parametros.DataBase > Convert.ToDateTime("1990-01-01")))
+                toastService.ShowToast("Campo Data Base deve ser preechido", ToastLevel.Warning, 5000);
+
+            this.StateHasChanged();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void SelecionaFilial(string filial)
+    {
+        parametros.Filial = filial;
+    }
+
+
+    private void MarcarEmTela()
+    {
+        if (parametros.GeraTela)
+        {
+            parametros.GeraPdf = false;
+            parametros.GeraExcel = false;
+            return;
+        }
+    }
+
+    private void MarcarEmPdf()
+    {
+        if (parametros.GeraPdf)
+        {
+            parametros.GeraTela = false;
+            parametros.GeraExcel = false;
+            return;
+        }
+    }
+
+    private void MarcarEmExcel()
+    {
+        if (parametros.GeraExcel)
+        {
+            parametros.GeraTela = false;
+            parametros.GeraPdf = false;
+            return;
+        }
+    }
+}

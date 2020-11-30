@@ -1,0 +1,90 @@
+﻿@page "/R1Analitico"
+
+@inject Business.ContasAReceber.Interfaces.IContasAReceberService contaReceberServce;
+@inject ToastService toastService
+
+
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <fieldset>
+            <legend>Relatório de contas a receber - Analítico - R1</legend>
+            <p>faz a impressão de todos os títulos em aberto do contas a receber</p>
+        </fieldset>
+    </div>
+</div>
+<hr />
+
+@if (relatorio.Count <= 0)
+{
+    <R1AnaliticoParametros ParameterSetCallBack="GerarRelatorio" />
+
+
+}
+else
+{
+    <MatButton @onclick="ExibeParametros">Parametros</MatButton>
+    <br />
+    <R1AnaliticoResult Relatorio="@relatorio"></R1AnaliticoResult>
+}
+
+@if (processando)
+{
+    <br />
+    <br />
+    <MatProgressBar Indeterminate="true" Reversed="true"></MatProgressBar>
+
+}
+
+
+@code {
+    [Inject]
+    BlazorDownloadFile.IBlazorDownloadFileService BlazorDownloadFileService { get; set; }
+
+
+
+    IList<SE1010> relatorio = new List<SE1010>();
+    private bool processando;
+
+
+
+    /// <summary>
+    /// Gera o relatório conforme os parâmetros
+    /// </summary>
+    /// <returns></returns>
+    private async Task GerarRelatorio(ReportContasReceberParametros parametros)
+    {
+
+
+        string filename = $"relatorio_{DateTime.Now.Ticks.ToString()}.xlsx";
+
+
+        if (parametros.GeraTela)
+        {
+            processando = true;
+            this.StateHasChanged();
+            relatorio = await contaReceberServce.ListaContasReceberAnaliticoR1(parametros);           
+            processando = false;
+            this.StateHasChanged();
+        }
+
+        if (parametros.GeraExcel)
+        {
+            processando = true;
+            this.StateHasChanged();
+            var arquivo = await contaReceberServce.ExcelContasReceberAnaliticoR1(parametros);
+            await BlazorDownloadFileService.DownloadFile(filename, arquivo, "application/octet-stream");
+            processando = false;
+            this.StateHasChanged();
+
+        }
+
+
+
+    }
+
+
+    private void ExibeParametros()
+    {
+        relatorio.Clear();
+    }
+}

@@ -1,10 +1,12 @@
 ﻿@inherits LayoutComponentBase
 
 <RadzenDialog />
+<RadzenNotification />
+<Toast />
 
 
-<MatDrawerContainer Style="width: 100vw; height: 100vh;">
-    <MatDrawer @bind-Opened="@Opened" Mode="@MatDrawerMode.Modal" @ref="MenuLateral">
+<MatDrawerContainer  >
+    <MatDrawer @bind-Opened="@Opened" Mode="@MatDrawerMode.Modal" @ref="MenuLateral" Style="width:30%;">
         <NavMenu />
     </MatDrawer>
     <MatDrawerContent>

@@ -1,0 +1,76 @@
+﻿@page  "/R1Consolidado"
+@inject Business.ContasAReceber.Interfaces.IContasAReceberService contaReceberServce;
+
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div>
+            <fieldset>
+                <legend>Relatório de contas a receber - Consolidado - R1</legend>
+                <p>Faz a impressão de todos os títulos em aberto do contas a receber, de forma consolidada por cliente</p>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<hr />
+@if (relatorio.Count <= 0)
+{
+    <R1ConsolidadoParametros ParameterSetCallBack="GerarRelatorio" />
+}
+else
+{
+
+    <MatButton @onclick="ExibeParametros" Style="margin-bottom:2em;">Parametros</MatButton>
+
+    <R1ConsolidadoResult Relatorio="@relatorio"></R1ConsolidadoResult>
+}
+@if (processando)
+{
+  
+    <MatProgressBar Style="margin-top:2em;" Indeterminate="true" Reversed="true"></MatProgressBar>
+}
+
+@code {
+
+    [Inject]
+    BlazorDownloadFile.IBlazorDownloadFileService BlazorDownloadFileService { get; set; }
+
+    private ReportContasReceberParametros parametros = new ReportContasReceberParametros();
+    private IList<Empresa> Empresas;
+    private bool processando;
+   
+
+
+    private IList<RelatorioContasAReceberConsolidado> relatorio = new List<RelatorioContasAReceberConsolidado>();
+
+
+    /// <summary>
+    /// Gera o relatório conforme os parâmetros
+    /// </summary>
+    /// <returns></returns>
+    private async Task GerarRelatorio(ReportContasReceberParametros parametros)
+    {
+        processando = true;
+
+        string filename = $"relatorio_{DateTime.Now.Ticks.ToString()}.xlsx";
+        if (parametros.GeraTela)
+        {
+            relatorio = await contaReceberServce.ListaContasReceberConsolidadoR1(parametros);
+            this.StateHasChanged();
+        }
+
+        if (parametros.GeraExcel)
+        {
+            var arquivo = await contaReceberServce.ExcelContasReceberConsolidadoR1(parametros);
+            await BlazorDownloadFileService.DownloadFile(filename, arquivo, "application/octet-stream");
+            this.StateHasChanged();
+
+        }
+        processando = false;
+    }
+
+    private void ExibeParametros()
+    {
+        relatorio.Clear();
+    }
+
+}

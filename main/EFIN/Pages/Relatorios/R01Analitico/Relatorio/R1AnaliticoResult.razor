@@ -1,0 +1,49 @@
+﻿
+@if (Relatorio.Count > 0)
+{
+    <RadzenGrid AllowFiltering="true"
+                AllowSorting="true"
+                TItem="SE1010"
+                Data="@Relatorio">
+        <Columns>
+            <RadzenGridColumn TItem="SE1010" Title="Filial" Property="Filial"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Cliente" Property="CodigoCliente"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Razao Social" Property="RazaoSocial"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Grupo" Property="GrupoEmpresarial"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Grupo Descricao" Property="GrupoEmpresarialDescricao"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Emissão" Property="Emissao"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Vencimento" Property="Vencimento"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Baixa" Property="Baixa"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Prazo Faturado" Property="PrazoFaturado"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Dias Atraso/Antecipado" Property="DiasAtrasoAntecipado"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Prazo Recebido" Property="PrazoRecebido"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Tipo" Property="Tipo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Prefixo" Property="Prefixo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Parcela" Property="Parcela"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Tipo" Property="Tipo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Valor" Property="Valor"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Saldo" Property="Saldo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Acréscimo" Property="Acrescimo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Decréscimo" Property="Decrescimo"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Desconto Financeiro" Property="DescontoFinanceiro"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Desconto" Property="Desconto"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="ValorRecebido" Property="ValorRecebido"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE1010" Title="Moeda" Property="Moeda"></RadzenGridColumn>
+        </Columns>
+    </RadzenGrid>
+}
+
+
+@code {
+
+    [Parameter]
+    public IList<SE1010> Relatorio { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Relatorio = new List<SE1010>();
+    }
+
+
+
+}
