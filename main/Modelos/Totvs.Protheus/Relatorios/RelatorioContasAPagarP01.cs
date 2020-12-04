@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Modelos.Totvs.Protheus.Relatorios
 {
-    public class ListaContasAPagarP01
+    public class RelatorioContasAPagarP01
     {
         public int Id { get; set; }
 
@@ -34,5 +34,7 @@ namespace Modelos.Totvs.Protheus.Relatorios
         public int Moeda { get; set; } 
         public decimal TaxaMoedaPaga { get; set; }
         public double Saldo { get; set; }
+        public string Natureza { get; set; }
+        public string NaturezaDescricao { get; set; }
     }
 }

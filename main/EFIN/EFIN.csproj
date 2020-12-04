@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\Dashboards\" />
-    <Folder Include="Pages\Relatorios\P01Analitico\Relatorio\" />
     <Folder Include="wwwroot\_content\img\logo\" />
     <Folder Include="wwwroot\_content\Modelos\Excel\" />
   </ItemGroup>

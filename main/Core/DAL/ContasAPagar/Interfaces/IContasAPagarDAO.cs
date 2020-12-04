@@ -9,6 +9,6 @@ namespace Core.DAL.ContasAPagar.Interfaces
 {
     public interface IContasAPagarDAO
     {
-        Task<ListaContasAPagarP01> ListaContasApagarP01(ParametrosContasAPagarP01 parametros);
+        Task<IList<RelatorioContasAPagarP01>> RelatorioContasAPagarP01Async(ParametrosContasAPagarP01 parametros);
     }
 }

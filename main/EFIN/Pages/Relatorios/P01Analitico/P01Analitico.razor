@@ -1,19 +1,41 @@
 ﻿@page "/p01analitico"
 
+@inject Business.ContasAPagar.Interfaces.IContasAPagarService contasAPagarService;
+
 <div class="container">
-    <div class="row">
-        <h4>Relatório Analítico Contas a Pagar - P01</h4>
+    <div class="row d-flex justify-content-center">
+        <fieldset>
+            <legend>Relatório Analítico Contas a Pagar - P01</legend>
+            <p>Faz a impressão do relatório contas a pagar analítico</p>
+        </fieldset>
     </div>
 </div>
+<hr />
+@if (relatorio.Count <= 0)
+{
+    <ParametrosP01 ParametrosCallBack="GerarRelatorio"></ParametrosP01>
+}
+else
+{
+    <P01Resultado Relatorio="@relatorio"></P01Resultado>
+}
 
-<GetParametrosContasAPagarP01 ParametrosCallBack="GerarRelatorio"></GetParametrosContasAPagarP01>
 
 @code {
     private ParametrosContasAPagarP01 parametros;
+    private IList<RelatorioContasAPagarP01> relatorio;
+    private bool showParametros = true;
 
 
-    private void GerarRelatorio(ParametrosContasAPagarP01 parametros)
+
+    protected override void OnInitialized()
     {
+        relatorio = new List<RelatorioContasAPagarP01>();
+    }
 
+
+    private async Task GerarRelatorio(ParametrosContasAPagarP01 parametros)
+    {
+        relatorio = await contasAPagarService.RelatorioContasAPagarP01Asycn(parametros);
     }
 }

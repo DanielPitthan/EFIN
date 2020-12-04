@@ -1,0 +1,35 @@
+﻿<RadzenGrid AllowFiltering="true"
+            AllowSorting="true"
+            TItem="RelatorioContasAPagarP01"
+            Data="@Relatorio">
+    <Columns>
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Filial" Property="Filial" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Número" Property="Numero" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Prefixo" Property="Prefixo" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Parcela" Property="Parcela" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Tipo" Property="Tipo" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Natureza" Property="Natureza" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Código" Property="Codigo" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Loja" Property="Loja" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Fornecedor" Property="Fornecedor" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Emissão" Property="Emissao" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Vencto. Real" Property="VencimentoReal" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Ult. Baixa" Property="UltimaBaixa" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Valor" Property="Valor" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Decréscimo" Property="Decrescimo" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="IRRF" Property="IRRF" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Cofins" Property="Cofins" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Pis" Property="Pis" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Csll" Property="Csll" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Acréscimo" Property="Acrescimo" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Desconto" Property="Desconto" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Valor Pago" Property="ValorPago" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Moeda" Property="Moeda" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Tx Moeda" Property="TaxaMoedaPaga" />
+        <RadzenGridColumn TItem="RelatorioContasAPagarP01" Title="Saldo" Property="Saldo" />
+    </Columns>
+</RadzenGrid>
+@code {
+    [Parameter]
+    public IList<RelatorioContasAPagarP01> Relatorio { get; set; }
+}

@@ -19,6 +19,14 @@ using DAL.DAOs.Financeiro.Interfaces;
 using DAL.DAOs.Financeiro.DAO;
 using Business.ContasAReceber.Interfaces;
 using Business.ContasAReceber.Services;
+using Core.DAL.Cadastros.TipoTitulos.Interfaces;
+using Core.DAL.Cadastros.TipoTitulos.Servicos;
+using Business.Cadastros.Titulos.Interfaces;
+using Business.Cadastros.Titulos.Services;
+using Core.DAL.ContasAPagar.Interfaces;
+using Core.DAL.ContasAPagar.DAL;
+using Business.ContasAPagar.Interfaces;
+using Business.ContasAPagar.Services;
 
 namespace EFIN.Injection
 {
@@ -26,6 +34,12 @@ namespace EFIN.Injection
     {
         public static IServiceCollection AddDependencia(this IServiceCollection services, IConfiguration config)
         {
+            services.AddTransient<IContasAPagarService, ContasAPagarService>();
+            services.AddTransient<IContasAPagarDAO, ContasAPagarDAO>();
+            services.AddTransient<INaturezaService, NaturezaService>();
+            services.AddTransient<ITiposTitulosService, TiposTitulosService>();
+
+            services.AddTransient<ITiposTitulosDAO, TiposTitulosDAO>();
             services.AddTransient<INaturezaDAO, NaturezaDAO>();
             services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<IClienteDAO, ClienteDAO>();
@@ -37,6 +51,7 @@ namespace EFIN.Injection
             services.AddTransient<IEmpresaService, EmpresaService>();
             services.AddTransient<IEmpresaDAO, EmpresaDAO>();
             services.AddTransient<DialogService>();
+            
             
             return services;
         }

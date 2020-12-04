@@ -14,6 +14,7 @@ namespace Core.Context
         public DbSet<RelatorioContasAReceberConsolidado> RelatorioContasAReceberConsolidado { get; set; }
         public DbSet<SE1010> SE1010 { get; set; }
         public DbSet<SED010> SED010 { get; set; }
+        public DbSet<TiposTitulos> TiposTitulos { get; set; }
 
         public ProtheusContex( DbContextOptions options) : base(options)
         {

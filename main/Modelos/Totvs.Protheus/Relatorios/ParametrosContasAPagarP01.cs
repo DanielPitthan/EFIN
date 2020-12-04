@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Modelos.Totvs.Protheus.Relatorios
 {
-    public struct ParametrosContasAPagarP01
+    public class ParametrosContasAPagarP01
     {
-        public DateTime DateBase { get; set; }
-        public string Natureza { get; set; }
-        public string Tipo { get; set; }
+        [Required]
+        public DateTime DataBase { get; set; }
+
+        [Required]
+        public IEnumerable<string> Naturezas { get; set; }
+
+        [Required]
+        public IEnumerable<string> Tipos { get; set; }
+
+        [Required]
         public string Filial { get; set; }
     }
 }

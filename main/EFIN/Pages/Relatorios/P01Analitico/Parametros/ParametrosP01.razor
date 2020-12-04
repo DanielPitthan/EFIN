@@ -1,0 +1,151 @@
+﻿
+@inject Business.Cadastros.Titulos.Interfaces.INaturezaService naturezaService;
+@inject Business.Cadastros.Titulos.Interfaces.ITiposTitulosService tiposService;
+@inject Business.Cadastros.Empresas.Interfaces.IEmpresaService empresaService;
+@inject ToastService toastService
+
+<EditForm @ref="formRef" Model="@parametros">
+    @*<Microsoft.AspNetCore.Components.Forms.ValidationSummary />*@
+    <DataAnnotationsValidator />
+    <div class="container">
+        <div class="form-group">
+            <div class="col col-12">
+                <Label>Empresa</Label>
+                <RadzenDropDown TValue="string" AllowFiltering="true"
+                                Data="@empresas"
+                                TextProperty="DescricaoResumida"
+                                ValueProperty="Codigo"
+                                Style="width:100%;"
+                                Change="@(async arg => await SetEmpresa(arg))">
+                </RadzenDropDown>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col col-12">
+                <Label>Data Base</Label>
+                <DateEdit @bind-Date="parametros.DataBase"></DateEdit>
+            </div>
+        </div>
+        <br />
+        <div class="form-inline">
+            <div class="col col-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <Label>Natureza</Label>
+                    <RadzenDropDown AllowFiltering="true"
+                                    Multiple="true"
+                                    AllowClear="true"
+                                    Data="@naturezas"
+                                    TextProperty="DescricaoComposta"
+                                    ValueProperty="ED_CODIGO"
+                                    Change="@(args=> SetNatureza(args))" Style="width:100%;"
+                                    @bind-Value="naturezasSelecionados">
+
+                    </RadzenDropDown>
+                </div>
+            </div>
+            <div class="col col-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <Label>Tipos</Label>
+                    <RadzenDropDown AllowFiltering="true"
+                                    Data="@tipos"
+                                    TextProperty="Descricao"
+                                    ValueProperty="Tipo"
+                                    Change="@(args=> SetTipos(args))" Style="width:100%;"
+                                    Multiple="true"
+                                    @bind-Value="tiposSelecionados" AllowClear="true">
+
+                    </RadzenDropDown>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <hr />
+        <input type="submit" class="btn btn-primary" value="Gerar o relatório" @onclick="HandleSubmit" />
+    </div>
+</EditForm>
+
+
+
+@code {
+    [Parameter]
+    public EventCallback<ParametrosContasAPagarP01> ParametrosCallBack { get; set; }
+
+    private ParametrosContasAPagarP01 parametros;
+    private IList<SED010> naturezas;
+    private IList<TiposTitulos> tiposTitulo;
+    private IList<Empresa> empresas;
+    private IList<TiposTitulos> tipos;
+    private IEnumerable<string> tiposSelecionados;
+    private IEnumerable<string> naturezasSelecionados;
+    private EditForm formRef;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        parametros = new ParametrosContasAPagarP01();
+        naturezas = new List<SED010>(); //await naturezaService.ListAsync();
+        tiposTitulo = await tiposService.ListAsync();
+        empresas = await empresaService.ListAsync();
+
+        tipos = await tiposService.ListAsync();
+    }
+
+
+
+    private async Task HandleSubmit()
+    {
+        if (HandleValidade(formRef.EditContext))
+        {
+            await ParametrosCallBack.InvokeAsync(parametros);
+        }
+    }
+
+
+    private bool HandleValidade(EditContext context)
+    {
+        var isValid = context.Validate();
+        if (!isValid || !(parametros.DataBase > Convert.ToDateTime("1990-01-01")))
+        {
+            var msg = context.GetValidationMessages();
+            foreach (var mensagem in msg)
+            {
+                toastService.ShowToast(mensagem, ToastLevel.Warning, 5000);
+            }
+
+
+            this.StateHasChanged();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void SetNatureza(object arg)
+    {
+
+        parametros.Naturezas = naturezasSelecionados;
+
+    }
+
+    private async Task SetEmpresa(object arg)
+    {
+        if (arg is string)
+        {
+            parametros.Filial = arg as string;
+            await CarregarNatureza();
+        }
+    }
+
+    private void SetTipos(object arg)
+    {
+        parametros.Tipos = tiposSelecionados;
+    }
+
+    private async Task CarregarNatureza()
+    {
+        naturezas = await this.naturezaService.ListAsync(parametros.Filial);
+    }
+}
