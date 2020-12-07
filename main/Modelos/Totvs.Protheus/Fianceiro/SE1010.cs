@@ -28,7 +28,7 @@ namespace Modelos.Totvs.Protheus.Financeiro
         public double E1_DESCFIN { get; set; }
         public double E1_MULTA { get; set; }
         public double E1_JUROS { get; set; }
-        public double? E1_TXMOEDA { get; set; }
+        public double E1_TXMOEDA { get; set; }
         public string E1_CONTA { get; set; }
         public double E1_COMIS1 { get; set; }
 

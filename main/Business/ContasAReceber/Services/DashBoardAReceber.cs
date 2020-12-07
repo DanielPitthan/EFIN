@@ -18,10 +18,28 @@ namespace Business.ContasAReceber.Services
         {
         }
 
-        public async  Task<IList<SE1010>> MaioresDevedoresPorFilial(string DataDe, string DataAte)
+        public async  Task<IList<SE1010>> MaioresDevedoresPorFilial()
         {
+            var result = await base.contaReceberDAO.List()
 
-            throw new NotImplementedException();
+                .GroupBy(x => new
+                {
+                    x.E1_FILIAL,
+                    x.E1_NOMCLI
+                })               
+                .Take(20)
+                .Select(e => new SE1010
+                {
+                    E1_FILIAL = e.Key.E1_FILIAL,
+                    E1_NOMCLI = e.Key.E1_NOMCLI,
+                    E1_SALDO = e.Sum(z=> z.E1_SALDO)
+                })
+                 .OrderBy(x => x.E1_FILIAL).ThenByDescending(x => x.E1_SALDO)
+                .ToListAsync();
+                            
+
+            return result;
+                
         }
 
         public Task<IList<SE1010>> MaioresTítulosEmAbertoPorFilial()

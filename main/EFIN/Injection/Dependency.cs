@@ -34,6 +34,8 @@ namespace EFIN.Injection
     {
         public static IServiceCollection AddDependencia(this IServiceCollection services, IConfiguration config)
         {
+            services.AddTransient<IDashBoardAreceber, DashBoardAReceber>();
+
             services.AddTransient<IContasAPagarService, ContasAPagarService>();
             services.AddTransient<IContasAPagarDAO, ContasAPagarDAO>();
             services.AddTransient<INaturezaService, NaturezaService>();
