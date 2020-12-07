@@ -16,9 +16,8 @@ namespace Business.ContasAReceber.Interfaces
         public Task<bool> AlterarAsync(ContasReceber conta);
 
         public Task<IList<RelatorioContasAReceberConsolidado>> ListaContasReceberConsolidadoR1(ReportContasReceberParametros parametros);
-        public Task<IList<SE1010>> ListaContasReceberAnaliticoR1(ReportContasReceberParametros parametros);
+        public Task<IList<ContasReceber>> ListaContasReceberAnaliticoR1(ReportContasReceberParametros parametros);
         Task<byte[]> ExcelContasReceberConsolidadoR1(ReportContasReceberParametros parametros);
-        Task<byte[]> ExcelContasReceberAnaliticoR1(ReportContasReceberParametros parametros);
-      
+        Task<byte[]> ExcelContasReceberAnaliticoR1(ReportContasReceberParametros parametros);      
     }
 }

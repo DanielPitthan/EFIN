@@ -10,13 +10,20 @@ namespace Tools.Planilhas
     public abstract class ExcelBase : IDisposable
     {
         public FileInfo File { get; set; }
+        /// <summary>
+        /// Diconário de ExcelWorksheet (Planilhas)
+        /// </summary>
         public Dictionary<string, ExcelWorksheet> Worksheet { get; set; }
+
+        /// <summary>
+        /// Pacote Excel contendo todas as Worksheet 
+        /// </summary>
         public ExcelPackage Planilha { get; set; }
 
         public ExcelBase()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            this.File = new FileInfo($"Planilha{DateTime.Now.Ticks.ToString()}.xlsx");
+            this.File = new FileInfo($"Planilha_{DateTime.Now.Ticks.ToString()}.xlsx");
             this.Planilha = new ExcelPackage(this.File);
         }
 
@@ -32,7 +39,7 @@ namespace Tools.Planilhas
        
         }
 
-        public abstract void FormatExcel(DateTime DataEmissao, string titulo, string workSheetName);
+        public abstract void FormatExcel(string titulo, string workSheetName);
 
 
         public abstract void WriteExcel<TSource>(IList<TSource> relatorio, string workSheetName);

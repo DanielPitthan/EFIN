@@ -32,6 +32,11 @@ namespace Modelos.Financeiro
         public virtual decimal? TxDolar { get; set; }
         public virtual decimal? TxEuro { get; set; }
 
+        public string GrupoEmpresarial { get; set; }
+        public string GrupoEmpresarialDescricao { get; set; }
+        public string CodigoCliente { get; set; }
+        public string RazaoSocial { get; set; }
+
 
     }
 }

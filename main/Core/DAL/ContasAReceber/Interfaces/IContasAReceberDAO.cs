@@ -18,7 +18,8 @@ namespace DAL.DAOs.Financeiro.Interfaces
        public bool Delete(ContasReceber reportContasReceber);
       
        public IQueryable<ContasReceber> All();
+        public IQueryable<SE1010> List();
        public IQueryable<RelatorioContasAReceberConsolidado> ListaContasReceberConsolidadoR1(ReportContasReceberParametros parametros);
-       public Task<IList<SE1010>> ListaContasReceberAnaliticoR1(ReportContasReceberParametros parametros);
+       public Task<IList<ContasReceber>> ListaContasReceberAnaliticoR1(ReportContasReceberParametros parametros);
     }
 }

@@ -11,31 +11,61 @@
     </div>
 </div>
 <hr />
-@if (relatorio.Count <= 0)
+@if (relatorioEmTela.Count <= 0)
 {
     <ParametrosP01 ParametrosCallBack="GerarRelatorio"></ParametrosP01>
 }
 else
 {
-    <P01Resultado Relatorio="@relatorio"></P01Resultado>
+    <P01Resultado Relatorio="@relatorioEmTela"></P01Resultado>
+}
+@if (processando)
+{
+    <br />
+    <br />
+    <MatProgressBar Indeterminate="true" Reversed="true"></MatProgressBar>
+
 }
 
-
 @code {
-    private ParametrosContasAPagarP01 parametros;
-    private IList<RelatorioContasAPagarP01> relatorio;
-    private bool showParametros = true;
 
+    [Inject]
+    BlazorDownloadFile.IBlazorDownloadFileService BlazorDownloadFileService { get; set; }
+
+    private ParametrosContasAPagarP01 parametros;
+    private IList<RelatorioContasAPagarP01> relatorioEmTela;
+    private bool showParametros = true;
+    private bool processando;
 
 
     protected override void OnInitialized()
     {
-        relatorio = new List<RelatorioContasAPagarP01>();
+        relatorioEmTela = new List<RelatorioContasAPagarP01>();
     }
 
 
     private async Task GerarRelatorio(ParametrosContasAPagarP01 parametros)
     {
-        relatorio = await contasAPagarService.RelatorioContasAPagarP01Asycn(parametros);
+        string filename = $"relatorio_{DateTime.Now.Ticks.ToString()}.xlsx";
+
+        if (parametros.GeraEmTela)
+        {
+            processando = true;
+            this.StateHasChanged();
+            relatorioEmTela = await contasAPagarService.RelatorioContasAPagarP01Asycn(parametros);
+            processando = false;
+            this.StateHasChanged();
+        }
+
+        if (parametros.GeraEmExcel)
+        {
+            processando = true;
+            this.StateHasChanged();
+            var arquivo = await contasAPagarService.RelatorioContasAPagarP01ExcelAsync(parametros);
+            await BlazorDownloadFileService.DownloadFile(filename, arquivo, "application/octet-stream");
+            processando = false;
+            this.StateHasChanged();
+        }
+
     }
 }

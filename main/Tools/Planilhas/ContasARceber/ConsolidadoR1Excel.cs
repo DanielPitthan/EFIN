@@ -11,7 +11,7 @@ namespace Tools.Planilhas.ContasARceber
     {
         private ReportContasReceberParametros parametros;
 
-        public ConsolidadoR1Excel(ReportContasReceberParametros _parametros, IList<RelatorioContasAReceberConsolidado> report)
+        public ConsolidadoR1Excel(ReportContasReceberParametros _parametros)
         {
             base.Worksheet = new Dictionary<string, ExcelWorksheet>();
             this.parametros = _parametros;
@@ -24,14 +24,14 @@ namespace Tools.Planilhas.ContasARceber
         /// <param name="DataEmissao"></param>
         /// <param name="titulo"></param>
         /// <param name="workSheetName"></param>
-        public override void FormatExcel(DateTime DataEmissao, string titulo, string workSheetName)
+        public override void FormatExcel(string titulo, string workSheetName)
         {
             base.Worksheet[workSheetName].Cells[1, 1].Value = titulo;
             base.Worksheet[workSheetName].Cells[2, 1].Value = "Moeda: R$ - Real";
             base.Worksheet[workSheetName].Cells[3, 1].Value = "Tipo: Resumo de documentos a receber";
             base.Worksheet[workSheetName].Cells[2, 6].Value = "Sistema de Contas a Receber";
             base.Worksheet[workSheetName].Cells[1, 10].Value = $"Emissão {DateTime.Now.ToString("dd/MM/yyyy")}";
-            base.Worksheet[workSheetName].Cells[2, 10].Value = $"Periodo {DataEmissao.ToString("dd/MM/yyyy")}";
+            base.Worksheet[workSheetName].Cells[2, 10].Value = $"Periodo {parametros.DataBase.ToString("dd/MM/yyyy")}";
 
             var amareloClaro = Color.FromArgb(255, 255, 153);
 
@@ -58,7 +58,7 @@ namespace Tools.Planilhas.ContasARceber
             base.Worksheet[workSheetName].Cells.AutoFitColumns(15);
 
             //Cabeçalho          
-            base.Worksheet[workSheetName].Cells[6, 2].Value = "Azienda"; //Nome 
+            base.Worksheet[workSheetName].Cells[6, 1].Value = "Azienda"; //Nome 
             base.Worksheet[workSheetName].Cells[6, 2].Value = "Descrizione Cliente"; //Nome 
             base.Worksheet[workSheetName].Cells[6, 3].Value = "Codice Cliente"; //Codigo
             base.Worksheet[workSheetName].Cells[6, 4].Value = "Faturado"; //Codigo

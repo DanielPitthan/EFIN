@@ -15,9 +15,9 @@ namespace Business.ContasAReceber.Services
 {
     public class ContaAReceberService : IContasAReceberService
     {
-        private readonly IContasAReceberDAO contaReceberDAO;
-        private readonly IEmpresaService empresaService;
-        private readonly IClienteService clienteService;
+        protected readonly IContasAReceberDAO contaReceberDAO;
+        protected readonly IEmpresaService empresaService;
+        protected readonly IClienteService clienteService;
 
         public ContaAReceberService(IContasAReceberDAO _contaReceberDAO,
                                     IEmpresaService _empresaService,
@@ -57,7 +57,7 @@ namespace Business.ContasAReceber.Services
             return await contaReceberDAO.DeleteAsync(conta);
         }
 
-        public async Task<IList<SE1010>> ListaContasReceberAnaliticoR1(ReportContasReceberParametros parametros)
+        public async Task<IList<ContasReceber>> ListaContasReceberAnaliticoR1(ReportContasReceberParametros parametros)
         {
            var contas =await contaReceberDAO.ListaContasReceberAnaliticoR1(parametros);
             return contas;
@@ -86,7 +86,7 @@ namespace Business.ContasAReceber.Services
                             }
                                   ).Distinct();
 
-            ConsolidadoR1Excel excel = new ConsolidadoR1Excel(parametros, report);
+            ConsolidadoR1Excel excel = new ConsolidadoR1Excel(parametros);
 
             if (parametros.Filial == "TODAS" || string.IsNullOrWhiteSpace(parametros.Filial))
             {
@@ -96,13 +96,13 @@ namespace Business.ContasAReceber.Services
                     var workSheet = $"{empresa.Sigla} Rischio Credito";
                     excel.AddWorkseet(workSheet);
                     excel.WriteExcel(reportFiltro, workSheet);
-                    excel.FormatExcel(parametros.DataBase, $"Colorobbia {empresa.Sigla}", workSheet);
+                    excel.FormatExcel( $"Colorobbia {empresa.Sigla}", workSheet);
 
                 }
 
                 excel.AddWorkseet("Consolidado BR e NE");
                 excel.WriteExcel(report, "Consolidado BR e NE");
-                excel.FormatExcel(parametros.DataBase, "Consolidado BR e NE", "Consolidado BR e NE");
+                excel.FormatExcel("Consolidado BR e NE", "Consolidado BR e NE");
             }
             else
             {
@@ -113,10 +113,11 @@ namespace Business.ContasAReceber.Services
 
                 excel.AddWorkseet($"{_empresa.Sigla} Rischio credito");
                 excel.WriteExcel(report, $"{_empresa.Sigla} Rischio credito");
-                excel.FormatExcel(parametros.DataBase, $"Colorobbia {_empresa.Sigla}", $"{_empresa.Sigla} Rischio credito");
+                excel.FormatExcel( $"Colorobbia {_empresa.Sigla}", $"{_empresa.Sigla} Rischio credito");
             }
 
             byte[] arquivo = await excel.CreateExcel();
+            excel.Dispose();
             return arquivo;
         }
 
@@ -130,9 +131,16 @@ namespace Business.ContasAReceber.Services
 
         public async Task<byte[]> ExcelContasReceberAnaliticoR1(ReportContasReceberParametros parametros)
         {
-            var relatorio = ListaContasReceberAnaliticoR1(parametros);
-            var clientes = clienteService.All();
-            return new byte[] { 0x20 };
+            var relatorio = await ListaContasReceberAnaliticoR1(parametros);
+            var clientes =await clienteService.All(parametros.Filial);
+
+            AnaliticoR1Excel excel = new AnaliticoR1Excel(parametros);
+            excel.AddWorkseet();
+            excel.FormatExcel("Relatório de contas a receber - Analítico - R1");
+            excel.SetClient(clientes);
+            excel.WriteExcel(relatorio,"Report");
+            var arquivo = await excel.CreateExcel();
+            return arquivo;
         }
     }
 }

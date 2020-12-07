@@ -10,17 +10,17 @@ namespace Modelos.Totvs.Protheus.Cadastros.Cliente
     public class SA1010
     {
         [NotMapped]
-        public virtual int Id { get; set; }
-        public virtual string Filial { get; set; }
-        public virtual string CodigoCliente { get; set; }
-        public virtual string Loja { get; set; }
-        public virtual string RazaoSocial { get; set; }
-        public virtual string NomeFantasia { get; set; }
-        public virtual string Cnpj { get; set; }
-        [NotMapped]
-        public virtual ClienteInfoFinanceiro ClienteInfoFinanceiros { get; set; }
-        [NotMapped]
-        public virtual ClienteGrupoComercial ClienteGrupoComercial { get; set; }
+        public  int Id { get; set; }
+        public  string Filial { get; set; }
+        public  string CodigoCliente { get; set; }
+        public  string Loja { get; set; }
+        public  string RazaoSocial { get; set; }
+        public  string NomeFantasia { get; set; }
+        public  string Cnpj { get; set; }
+        public virtual double LimiteCredito { get; set; }
+        public virtual string Natureza { get; set; }
+        public virtual string GrupoEmpresarial { get; set; }
+        public virtual string GrupoEmpresarialDescricao { get; set; }
 
 
     }

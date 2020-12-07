@@ -91,7 +91,7 @@ namespace DAL.DAOs.Financeiro.DAO
 
 
 
-        public async Task<IList<SE1010>> ListaContasReceberAnaliticoR1(ReportContasReceberParametros parametros)
+        public async Task<IList<ContasReceber>> ListaContasReceberAnaliticoR1(ReportContasReceberParametros parametros)
         {
             
 
@@ -101,7 +101,7 @@ namespace DAL.DAOs.Financeiro.DAO
                 connection.Open();
                 
 
-                var report = await connection.QueryAsync<SE1010>("exec ListaContasReceberAnaliticoR1 @DataBase,@TipoCliente "
+                var report = await connection.QueryAsync<ContasReceber>("exec ListaContasReceberAnaliticoR1 @DataBase,@TipoCliente "
                                                                           , new
                                                                           {
                                                                               DataBase = parametros.DataBase,
@@ -115,5 +115,11 @@ namespace DAL.DAOs.Financeiro.DAO
 
         }
 
+        
+
+        IQueryable<SE1010> IContasAReceberDAO.List()
+        {
+            return this.protheusContex.SE1010;
+        }
     }
 }

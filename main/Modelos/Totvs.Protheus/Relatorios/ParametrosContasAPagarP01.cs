@@ -20,5 +20,9 @@ namespace Modelos.Totvs.Protheus.Relatorios
 
         [Required]
         public string Filial { get; set; }
+        public bool GeraEmExcel { get; set; }
+        public bool GeraEmTela { get; set; }
+
+
     }
 }

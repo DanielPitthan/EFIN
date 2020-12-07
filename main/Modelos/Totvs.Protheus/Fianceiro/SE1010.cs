@@ -5,41 +5,32 @@ namespace Modelos.Totvs.Protheus.Financeiro
 {
     public class SE1010
     {
-    
-        public int Id { get; set; }
-        public string Filial { get; set; }
-        public string Titulo { get; set; }
-        public string Prefixo { get; set; }
-        public string Parcela { get; set; }
-        public string Tipo { get; set; }
-        public string Moeda { get; set; }
 
-        public DateTime? Emissao { get; set; }
-        public DateTime? Vencimento { get; set; }
-        public DateTime? VencimentoReal { get; set; }
-     
-        public string Baixa { get; set; }
-        
-       
-        public string Historico { get; set; }
-        public int PrazoFaturado { get; set; }
-        public int DiasAtrasoAntecipado { get; set; }
-        public int PrazoRecebido { get; set; }
 
-        public double Valor { get; set; }
-        public double Saldo { get; set; }
-        public double ValorRecebido { get; set; }
-        public double Desconto { get; set; }
-        public double Acrescimo { get; set; }
-        public double Decrescimo { get; set; }
-    
-        public double? DescontoFinanceiro { get; set; }
-        public double? TxDolar { get; set; }
-        public double? TxEuro { get; set; }
-        public string GrupoEmpresarial { get; set; }
-        public string GrupoEmpresarialDescricao { get; set; }
-        public string CodigoCliente { get; set; }
-        public string RazaoSocial { get; set; }
+        public string E1_FILIAL { get; set; }
+        public string E1_NUM { get; set; }
+        public string E1_PREFIXO { get; set; }
+        public string E1_PARCELA { get; set; }
+        public string E1_TIPO { get; set; }
+        public string E1_MOEDA { get; set; }
+        public string E1_CLIENTE { get; set; }
+        public string E1_LOJA { get; set; }
+        public string E1_NOMCLI { get; set; }
+        public string E1_EMISSAO { get; set; }
+        public string E1_VENCTO { get; set; }
+        public string E1_VENCREA { get; set; }
+        public string E1_BAIXA { get; set; }
+        public double E1_VALOR { get; set; }
+        public double E1_SALDO { get; set; }
+        public double E1_DESCONT { get; set; }
+        public double E1_ACRESC { get; set; }
+        public double E1_DECRESC { get; set; }
+        public double E1_DESCFIN { get; set; }
+        public double E1_MULTA { get; set; }
+        public double E1_JUROS { get; set; }
+        public double? E1_TXMOEDA { get; set; }
+        public string E1_CONTA { get; set; }
+        public double E1_COMIS1 { get; set; }
 
 
     }

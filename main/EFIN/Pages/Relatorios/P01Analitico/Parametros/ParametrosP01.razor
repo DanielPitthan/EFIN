@@ -5,7 +5,6 @@
 @inject ToastService toastService
 
 <EditForm @ref="formRef" Model="@parametros">
-    @*<Microsoft.AspNetCore.Components.Forms.ValidationSummary />*@
     <DataAnnotationsValidator />
     <div class="container">
         <div class="form-group">
@@ -24,7 +23,7 @@
         <div class="form-group">
             <div class="col col-12">
                 <Label>Data Base</Label>
-                <DateEdit @bind-Date="parametros.DataBase"></DateEdit>
+                <RadzenDatePicker @bind-Value="parametros.DataBase"></RadzenDatePicker>
             </div>
         </div>
         <br />
@@ -62,6 +61,14 @@
         <br />
         <br />
         <hr />
+        <div class="row">
+            <MatSlideToggle @bind-Value="@parametros.GeraEmExcel" @onclick="SwitchExcel"></MatSlideToggle>
+            <span style="margin-left:1.5rem; margin-right: 1rem;">Gera em Excel</span>
+            <MatSlideToggle @bind-Value="@parametros.GeraEmTela" @onclick="SwitchEmTela"></MatSlideToggle>
+            <span style="margin-left:1.5rem; margin-right: 1rem;">Gera em Tela</span>
+
+        </div>
+
         <input type="submit" class="btn btn-primary" value="Gerar o relatório" @onclick="HandleSubmit" />
     </div>
 </EditForm>
@@ -86,7 +93,7 @@
     protected override async Task OnInitializedAsync()
     {
         parametros = new ParametrosContasAPagarP01();
-        naturezas = new List<SED010>(); //await naturezaService.ListAsync();
+        naturezas = new List<SED010>();
         tiposTitulo = await tiposService.ListAsync();
         empresas = await empresaService.ListAsync();
 
@@ -148,4 +155,7 @@
     {
         naturezas = await this.naturezaService.ListAsync(parametros.Filial);
     }
+
+    private void SwitchExcel() => parametros.GeraEmTela = false;
+    private void SwitchEmTela() => parametros.GeraEmExcel = false;
 }
