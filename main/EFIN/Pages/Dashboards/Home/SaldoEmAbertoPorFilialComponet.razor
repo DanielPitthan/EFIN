@@ -1,0 +1,79 @@
+﻿
+@inject Business.ContasAReceber.Interfaces.IDashBoardAreceber dashBoardReceber
+
+
+
+<div class="col col-4 col-md-4 col-lg-4">   
+    <PieChart TItem="decimal" @ref="piechart" @onclick="@(() => { detalhar = !detalhar; })"></PieChart>
+
+    <RadzenPanel AllowCollapse="true" Collapsed="@(!detalhar)">
+        <HeaderTemplate>
+            <span>Saldo em aberto por Filial</span>
+        </HeaderTemplate>
+        <ChildContent>
+         
+                <RadzenGrid TItem="Modelos.Totvs.Protheus.Financeiro.SE1010"
+                            AllowFiltering="true"
+                            AllowSorting="true"
+                            Data="@totalEmAbertoPorFilial">
+                    <Columns>
+                        <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Filial" Property="E1_FILIAL"></RadzenGridColumn>
+                        <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Saldo" Property="E1_SALDO" FormatString="@("{0:0,0.00}")"></RadzenGridColumn>
+                    </Columns>
+                </RadzenGrid>
+           
+        </ChildContent>
+    </RadzenPanel>
+
+</div>
+
+
+@code {
+    PieChart<decimal> piechart;
+    private IList<Modelos.Totvs.Protheus.Financeiro.SE1010> totalEmAbertoPorFilial;
+    private bool detalhar;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (totalEmAbertoPorFilial == null)
+            {
+                totalEmAbertoPorFilial = await dashBoardReceber.TotalEmAbertoPorFilial();
+            }
+
+
+            this.StateHasChanged();
+            await HandleWithCharts();
+        }
+    }
+
+    private async Task HandleWithCharts()
+    {
+        string[] labelstotalEmAbertoPorFilial = totalEmAbertoPorFilial.Select(m => m.E1_FILIAL).ToArray();
+        List<decimal> datatotalEmAbertoPorFilial = totalEmAbertoPorFilial.Select(m => Convert.ToDecimal(m.E1_SALDO)).ToList();
+
+        List<string> colorTotalEmAbertoPorfilial = new List<string>();
+
+
+        colorTotalEmAbertoPorfilial.Add(ChartColor.FromRgba(0, 185, 255, 0.2f));
+        colorTotalEmAbertoPorfilial.Add(ChartColor.FromRgba(105, 25, 215, 0.2f));
+        colorTotalEmAbertoPorfilial.Add(ChartColor.FromRgba(233, 238, 10, 0.2f));
+        colorTotalEmAbertoPorfilial.Add(ChartColor.FromRgba(238, 21, 10, 0.2f));
+
+
+        await piechart.Clear();
+        await piechart.AddLabelsDatasetsAndUpdate(labelstotalEmAbertoPorFilial,
+            new PieChartDataset<decimal>()
+            {
+                Label = "Exposição por Filial",
+                Data = datatotalEmAbertoPorFilial,
+                BackgroundColor = colorTotalEmAbertoPorfilial,
+                BorderColor = colorTotalEmAbertoPorfilial
+
+            });
+        
+       
+    }
+
+}

@@ -1,0 +1,41 @@
+﻿@inject Business.ContasAPagar.Interfaces.IDashBoardAPagarService dashboardAPagar
+
+<RadzenPanel AllowCollapse="true" Collapsed="true">
+    <RadzenGrid TItem="SE2010"
+                AllowFiltering="true"
+                AllowSorting="true"
+                Data="@proximosPagametos">
+        <Columns>
+            <RadzenGridColumn TItem="SE2010" Title="Filial" Property="E2_FILIAL"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE2010" Title="Tipo" Property="E2_TIPO"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE2010" Title="Numero" Property="E2_NUM"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE2010" Title="Prefixo" Property="E2_PREFIXO"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE2010" Title="Parcela" Property="E2_PARCELA"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE2010" Title="Cliente" Property="E2_NOMFOR"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE2010" Title="Emissão" Property="E2EmissaoProxy"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE2010" Title="Venc. Real" Property="E2VencreaProxy"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE2010" Title="Valor" Property="E2_VALOR" FormatString="@("{0:0,0.00}")"></RadzenGridColumn>
+            <RadzenGridColumn TItem="SE2010" Title="Saldo" Property="E2_SALDO" FormatString="@("{0:0,0.00}")"></RadzenGridColumn>
+        </Columns>
+    </RadzenGrid>
+</RadzenPanel>
+
+@code {
+    private IList<SE2010> proximosPagametos;
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+
+            if (proximosPagametos == null)
+            {
+                proximosPagametos = await dashboardAPagar.PagamentosDoDia();
+            }
+
+            this.StateHasChanged();
+        }
+    }
+}

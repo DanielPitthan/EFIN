@@ -12,7 +12,7 @@ namespace Business.ContasAPagar.Services
 {
     public class ContasAPagarService : IContasAPagarService
     {
-        private IContasAPagarDAO contasAPagarDAO;
+        protected IContasAPagarDAO contasAPagarDAO;
 
         public ContasAPagarService(IContasAPagarDAO _contasAPagarDao)
         {

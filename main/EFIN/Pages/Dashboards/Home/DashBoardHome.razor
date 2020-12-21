@@ -1,91 +1,42 @@
-﻿@page "/x"
+﻿
 
-@inject Business.ContasAReceber.Interfaces.IDashBoardAreceber dashBoardReceber
-
-<div class="row">
-
-    <div class="col col-12 col-md-4 col-lg-4">
-        <fieldset>
-            <legend>Maiores Títulos em aberto</legend>
-            <RadzenPanel>
-                <RadzenGrid TItem="Modelos.Totvs.Protheus.Financeiro.SE1010"
-                            AllowFiltering="true"
-                            AllowSorting="true"
-                            Data="@MaioresDevedores">
-                    <Columns>
-                        <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Filial" Property="E1_FILIAL"></RadzenGridColumn>
-                        <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Cliente" Property="E1_NOMCLI"></RadzenGridColumn>
-                        <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Saldo" Property="E1_SALDO" FormatString="@("{0:0,0.00}")"></RadzenGridColumn>
-                    </Columns>
-                </RadzenGrid>
-            </RadzenPanel>
-        </fieldset>
+<div class="container-fluid">
+    <br />
+    <div class="row justify-content-center">
+        <h4>Painel Tesoraria <MatIcon Icon="query_stats"></MatIcon> </h4>
     </div>
-    <div class="col col-12 col-md-4 col-lg-12">
-        <fieldset>
-            <legend>Gráfico</legend>
+    <hr />
+    <br />
+    <br />
+    <div class="row justify-content-center">
+        <SaldoEmAbertoPorFilialComponet></SaldoEmAbertoPorFilialComponet>
+        <TopMaioresExposicoes></TopMaioresExposicoes>
+        <TopMaioresCredores></TopMaioresCredores>
+    </div>
+    <hr style="padding-bottom:2rem;" />
+    <div class="row">
+        <h5>Recebimentos do dia</h5>
+        <RecebimentosDoDia></RecebimentosDoDia>
+    </div>
 
-            <LineChart TItem="double" @ref="lineChartRef">
+    <hr style="padding-bottom:2rem;" />
+    <div class="row">
+        <h5>Despesas do dia</h5>
+        <PagametosDoDia></PagametosDoDia>
+    </div>
 
-            </LineChart>
-        </fieldset>
+    <hr style="padding-bottom:2rem;" />
+    <div class="row">
+        <h5>Recebíveis em atraso</h5>
+    </div>
+
+    <hr style="padding-bottom:2rem;" />
+    <div class="row">
+        <h5>Despesas pendendes</h5>
+        <PagamentosEmAtraso></PagamentosEmAtraso>
     </div>
 </div>
 
-
-
-
-
-
-
 @code {
-    LineChart<double> lineChartRef;
 
-    IList<Modelos.Totvs.Protheus.Financeiro.SE1010> MaioresDevedores = new List<Modelos.Totvs.Protheus.Financeiro.SE1010>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        MaioresDevedores = await dashBoardReceber.MaioresDevedoresPorFilial();
-
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await HandleRedraw();
-        }
-    }
-
-    async Task HandleRedraw()
-    {
-        await lineChartRef.Clear();
-
-        await lineChartRef.AddLabelsDatasetsAndUpdate(Labels, GetLineChartDataset());
-    }
-
-    LineChartDataset<double> GetLineChartDataset()
-    {
-        return new LineChartDataset<double>
-        {
-            Label = "# of randoms",
-            Data = RandomizeData(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
-            Fill = true,
-            PointRadius = 2,
-            BorderDash = new List<int> { }
-        };
-    }
-
-    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
-
-    List<double> RandomizeData()
-    {
-        var r = new Random(DateTime.Now.Millisecond);
-
-        return new List<double> { r.Next(3, 50) * r.NextDouble(), r.Next(3, 50) * r.NextDouble(), r.Next(3, 50) * r.NextDouble(), r.Next(3, 50) * r.NextDouble(), r.Next(3, 50) * r.NextDouble(), r.Next(3, 50) * r.NextDouble() };
-    }
 }

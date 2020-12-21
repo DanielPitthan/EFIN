@@ -17,7 +17,23 @@ namespace Modelos.Totvs.Protheus.Financeiro
         public string E1_LOJA { get; set; }
         public string E1_NOMCLI { get; set; }
         public string E1_EMISSAO { get; set; }
+
+        [NotMapped]
+        public DateTime E1EmissaoProxy { get
+            {
+                return Convert.ToDateTime(this.E1_EMISSAO.Substring(0, 4) + "-" + this.E1_EMISSAO.Substring(4, 2) + "-" + this.E1_EMISSAO.Substring(6, 2));
+            } 
+        }
         public string E1_VENCTO { get; set; }
+
+        [NotMapped]
+        public DateTime E1VencReaProxy
+        {
+            get
+            {
+                return Convert.ToDateTime(this.E1_VENCREA.Substring(0, 4) + "-" + this.E1_VENCREA.Substring(4, 2) + "-" + this.E1_VENCREA.Substring(6, 2));
+            }
+        }
         public string E1_VENCREA { get; set; }
         public string E1_BAIXA { get; set; }
         public double E1_VALOR { get; set; }
@@ -31,7 +47,7 @@ namespace Modelos.Totvs.Protheus.Financeiro
         public double E1_TXMOEDA { get; set; }
         public string E1_CONTA { get; set; }
         public double E1_COMIS1 { get; set; }
-
-
+        public string D_E_L_E_T_ { get; set; }
+        public string E1_STATUS { get; set; }
     }
 }

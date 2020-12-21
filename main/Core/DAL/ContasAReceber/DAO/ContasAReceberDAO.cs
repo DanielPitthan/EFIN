@@ -117,7 +117,7 @@ namespace DAL.DAOs.Financeiro.DAO
 
         
 
-        IQueryable<SE1010> IContasAReceberDAO.List()
+        IQueryable<SE1010> IContasAReceberDAO.GetAll()
         {
             return this.protheusContex.SE1010;
         }

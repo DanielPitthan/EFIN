@@ -10,6 +10,7 @@ namespace Core.Context
 {
     public class ProtheusContex : DbContext
     {
+        public DbSet<SE2010> SE2010 { get; set; }
         public DbSet<SA1010> SA1010 { get; set; }
         public DbSet<RelatorioContasAReceberConsolidado> RelatorioContasAReceberConsolidado { get; set; }
         public DbSet<SE1010> SE1010 { get; set; }
@@ -22,6 +23,7 @@ namespace Core.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<SE2010>().HasNoKey();
             modelBuilder.Entity<RelatorioContasAReceberConsolidado>().HasNoKey();
             modelBuilder.Entity<SE1010>().HasNoKey();
             modelBuilder.Entity<SA1010>().HasNoKey();

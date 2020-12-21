@@ -1,0 +1,77 @@
+﻿
+@inject Business.ContasAReceber.Interfaces.IDashBoardAreceber dashBoardReceber
+
+
+
+<div class="col col-12 col-md-4 col-lg-4">
+    <BarChart TItem="decimal" @ref="barchart" @onclick="@(()=> { detalharClientes = !detalharClientes; })" />
+
+    <RadzenPanel AllowCollapse="true" Collapsed="@(!detalharClientes)">
+        <HeaderTemplate>
+            <span>Top 10 maiores exposições</span>
+        </HeaderTemplate>
+        <ChildContent>
+            <RadzenGrid TItem="Modelos.Totvs.Protheus.Financeiro.SE1010"
+                        AllowFiltering="true"
+                        AllowSorting="true"
+                        Data="@maioresDevedores">
+                <Columns>
+                    <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Filial" Property="E1_FILIAL"></RadzenGridColumn>
+                    <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Cliente" Property="E1_NOMCLI"></RadzenGridColumn>
+                    <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Saldo" Property="E1_SALDO" FormatString="@("{0:0,0.00}")"></RadzenGridColumn>
+                </Columns>
+            </RadzenGrid>
+        </ChildContent>
+    </RadzenPanel>
+</div>
+
+@code {
+    private IList<Modelos.Totvs.Protheus.Financeiro.SE1010> maioresDevedores;
+    BarChart<decimal> barchart;
+    private bool detalharClientes;
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (maioresDevedores == null)
+            {
+                maioresDevedores = await dashBoardReceber.MaioresExposicoes();
+            }
+
+
+
+            this.StateHasChanged();
+            await HandleWithCharts();
+        }
+    }
+
+
+    private async Task HandleWithCharts()
+    {
+
+        string[] labelsMaioresDevedores = maioresDevedores.Select(m => m.E1_NOMCLI).ToArray();
+        List<decimal> dataMaioresDevedores = maioresDevedores.Select(m => Convert.ToDecimal(m.E1_SALDO)).ToList();
+        List<string> colorsMaioresDevedores = new List<string>();
+
+        for (int i = 0; i < maioresDevedores.Count; i++)
+        {
+            colorsMaioresDevedores.Add(ChartColor.FromRgba(3, 246, 0, 0.2f));
+        }
+
+
+        await barchart.Clear();
+
+        await barchart.AddLabelsDatasetsAndUpdate(labelsMaioresDevedores, new BarChartDataset<decimal>()
+        {
+
+            Label = "Top 10 maiores exposições",
+            Data = dataMaioresDevedores,
+            BackgroundColor = colorsMaioresDevedores,
+            BorderColor = colorsMaioresDevedores,
+        });
+
+
+    }
+}

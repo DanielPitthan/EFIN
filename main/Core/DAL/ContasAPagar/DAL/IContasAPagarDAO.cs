@@ -2,6 +2,7 @@
 using Core.DAL.ContasAPagar.Interfaces;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Modelos.Totvs.Protheus.Financeiro;
 using Modelos.Totvs.Protheus.Relatorios;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Core.DAL.ContasAPagar.DAL
     public class ContasAPagarDAO : IContasAPagarDAO
     {
         private ProtheusContex protheusContex;
+       
 
         /// <summary>
         /// Construtor 
@@ -23,6 +25,11 @@ namespace Core.DAL.ContasAPagar.DAL
         public ContasAPagarDAO(ProtheusContex _protheusContex)
         {
             this.protheusContex = _protheusContex;
+        }
+
+        public IQueryable<SE2010> All()
+        {
+            return this.protheusContex.SE2010;
         }
 
         public async Task<IList<RelatorioContasAPagarP01>> RelatorioContasAPagarP01Async(ParametrosContasAPagarP01 parametros)

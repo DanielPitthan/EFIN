@@ -1,0 +1,42 @@
+﻿
+@inject Business.ContasAReceber.Interfaces.IDashBoardAreceber dashBoardReceber
+
+<RadzenPanel AllowCollapse="true" Collapsed="true">
+        <RadzenGrid TItem="Modelos.Totvs.Protheus.Financeiro.SE1010"
+                    AllowFiltering="true"
+                    AllowSorting="true"
+                    Data="@proximosRecebimentos">
+            <Columns>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Filial" Property="E1_FILIAL"></RadzenGridColumn>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Tipo" Property="E1_TIPO"></RadzenGridColumn>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Numero" Property="E1_NUM"></RadzenGridColumn>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Prefixo" Property="E1_PREFIXO"></RadzenGridColumn>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Parcela" Property="E1_PARCELA"></RadzenGridColumn>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Cliente" Property="E1_NOMCLI"></RadzenGridColumn>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Emissão" Property="E1EmissaoProxy"></RadzenGridColumn>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Venc. Real" Property="E1VencReaProxy"></RadzenGridColumn>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Valor" Property="E1_VALOR" FormatString="@("{0:0,0.00}")"></RadzenGridColumn>
+                <RadzenGridColumn TItem="Modelos.Totvs.Protheus.Financeiro.SE1010" Title="Saldo" Property="E1_SALDO" FormatString="@("{0:0,0.00}")"></RadzenGridColumn>
+            </Columns>
+        </RadzenGrid>  
+</RadzenPanel>
+
+@code {
+    private IList<Modelos.Totvs.Protheus.Financeiro.SE1010> proximosRecebimentos;
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+
+            if (proximosRecebimentos == null)
+            {
+                proximosRecebimentos = await dashBoardReceber.ProximosRecebimentos();
+            }
+
+            this.StateHasChanged();
+        }
+    }
+}

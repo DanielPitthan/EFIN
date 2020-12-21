@@ -66,18 +66,7 @@ namespace EFIN
 
            
 
-            //services.AddTransient<INaturezaDAO, NaturezaDAO>();
-            //services.AddTransient<IClienteService, ClienteService>();
-            //services.AddTransient<IClienteDAO, ClienteDAO>();
-
-            //services.AddScoped<ToastService>();
-            //services.AddTransient<NotificationService>();
-            //services.AddTransient<IContasAReceberService, ContaAReceberService>();
-            //services.AddTransient<IContasAReceberDAO, ContasAReceberDAO>();
-            //services.AddTransient<IEmpresaService, EmpresaService>();
-            //services.AddTransient<IEmpresaDAO, EmpresaDAO>();
-            //services.AddTransient<Radzen.DialogService>();
-            //services.AddTransient<HttpClient>();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
