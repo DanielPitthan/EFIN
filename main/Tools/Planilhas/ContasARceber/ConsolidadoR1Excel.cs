@@ -75,6 +75,7 @@ namespace Tools.Planilhas.ContasARceber
             base.Worksheet[workSheetName].Cells[6, 15].Value = "% copertura";
             base.Worksheet[workSheetName].Cells[6, 16].Value = "Vencidas";
             base.Worksheet[workSheetName].Cells[6, 17].Value = "Utilizzo Fido";
+            base.Worksheet[workSheetName].Cells[6, 18].Value = "Juros";
         }
 
 
@@ -109,6 +110,7 @@ namespace Tools.Planilhas.ContasARceber
                 base.Worksheet[workSheetName].Cells[linhaInicial, 15].Value = R.PercentCobertura;
                 base.Worksheet[workSheetName].Cells[linhaInicial, 16].Value = R.SaldoVencido;
                 base.Worksheet[workSheetName].Cells[linhaInicial, 17].Value = "";
+                base.Worksheet[workSheetName].Cells[linhaInicial, 18].Value = R.Juros;
                 linhaInicial++;
             }
         }

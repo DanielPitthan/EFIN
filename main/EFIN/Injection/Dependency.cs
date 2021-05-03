@@ -54,7 +54,7 @@ namespace EFIN.Injection
             services.AddTransient<IEmpresaService, EmpresaService>();
             services.AddTransient<IEmpresaDAO, EmpresaDAO>();
             services.AddTransient<DialogService>();
-            
+            services.AddScoped<AlertService>();
             
             return services;
         }

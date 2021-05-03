@@ -1,0 +1,28 @@
+﻿
+@inherits AlertBase
+
+<MatDialog IsOpen="@IsVisible">
+    <MatDialogTitle>
+        <MatIcon Icon="error_outline" Style="@CssColorIcon">
+        </MatIcon>
+        @Titulo
+    </MatDialogTitle>
+    <MatDialogContent>
+        @Message
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton @onclick="@(()=>IsVisible=false)">OK</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+
+@IsVisible
+@CssColorIcon
+@Titulo
+@Message
+
+
+
+@code {
+
+}

@@ -11,7 +11,8 @@ namespace Business.ContasAReceber.Interfaces
     {
         Task<IList<SE1010>> TotalEmAbertoPorFilial();
         Task<IList<SE1010>> MaioresExposicoes();
-        Task<IList<SE1010>> ProximosRecebimentos();
+        Task<IList<SE1010>> RecebimentosDoDia();
+        Task<IList<SE1010>> RecebimentosAtrasados();
 
     }
 }

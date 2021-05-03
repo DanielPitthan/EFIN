@@ -32,5 +32,6 @@ namespace Modelos.Totvs.Protheus.Relatorios
         public virtual decimal PercentCobertura { get; set; }
         public virtual decimal FaturadoDataBase { get; set; }
         public virtual decimal OutrasGarantias { get; set; }
+        public decimal Juros { get; set; }
     }
 }

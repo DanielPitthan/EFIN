@@ -34,6 +34,7 @@ namespace Modelos.Financeiro
         public string GrupoEmpresarialDescricao { get; set; }
         public string CodigoCliente { get; set; }
         public string RazaoSocial { get; set; }
+        public decimal? Juros { get; set; }
 
 
     }

@@ -49,7 +49,7 @@ namespace Business.ContasAReceber.Services
 
       
 
-        public async Task<IList<SE1010>> ProximosRecebimentos()
+        public async Task<IList<SE1010>> RecebimentosDoDia()
         {
             string dataatual = DateTime.Now.ToString("yyyyMMdd");
 
@@ -76,6 +76,39 @@ namespace Business.ContasAReceber.Services
                   .ToArrayAsync();
 
             return result;
+        }
+
+        public async Task<IList<SE1010>> RecebimentosAtrasados()
+        {
+            // string dataatual = DateTime.Now.ToString("yyyyMMdd");
+            try { 
+            var result = await base.contaReceberDAO.GetAll()
+                  .Where(x => x.D_E_L_E_T_ == "" &&
+                        x.E1_SALDO > 0 && x.E1_STATUS != "B" &&
+                       Convert.ToDateTime(x.E1_VENCREA) <= DateTime.Now// dataatual
+
+                        )
+                  .Select(e => new SE1010()
+                  {
+                      E1_FILIAL = e.E1_FILIAL,
+                      E1_TIPO = e.E1_TIPO,
+                      E1_NUM = e.E1_NUM,
+                      E1_PREFIXO = e.E1_PREFIXO,
+                      E1_PARCELA = e.E1_PARCELA,
+                      E1_NOMCLI = e.E1_NOMCLI,
+                      E1_EMISSAO = e.E1_EMISSAO,
+                      E1_VENCREA = e.E1_VENCREA,
+                      E1_VALOR = e.E1_VALOR,
+                      E1_SALDO = e.E1_SALDO
+                  })
+                  .OrderBy(c => c.E1_FILIAL).ThenBy(c => c.E1_VENCREA)
+                  .ToArrayAsync();
+
+            return result;
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<IList<SE1010>> TotalEmAbertoPorFilial()
